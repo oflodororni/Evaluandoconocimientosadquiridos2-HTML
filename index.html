@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluador Estructura Base</title>
+  <style>
+    textarea { width: 100%; height: 200px; font-family: monospace; }
+    button { margin-top: 10px; }
+    #resultado { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h3>Pregunta 1 – Estructura mínima del documento HTML5</h3>
+  <p>Escribe solo las etiquetas necesarias: <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;html lang="es"&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>, y sus etiquetas de cierre.</p>
+
+  <textarea id="codigo" placeholder="Escribe aquí tu estructura HTML..."></textarea>
+  <br>
+  <button onclick="evaluar()">Evaluar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function normalizar(cadena) {
+      return cadena
+        .toLowerCase()
+        .replace(/\s+/g, "") // elimina todos los espacios
+        .replace(/<!--.*?-->/g, ""); // elimina comentarios
+    }
+
+    function evaluar() {
+      const entrada = normalizar(document.getElementById("codigo").value);
+      const resultado = document.getElementById("resultado");
+
+      const requerido = [
+        "<!doctypehtml>",
+        "<htmllang=\"es\">",
+        "<head></head>",
+        "<body></body>",
+        "</html>"
+      ];
+
+      const errores = requerido.filter(e => !entrada.includes(e));
+
+      if (errores.length === 0) {
+        resultado.textContent = "✅ Estructura básica correcta.";
+        resultado.style.color = "green";
+      } else {
+        resultado.innerHTML = "❌ Faltan o están mal escritas estas partes:<ul>" +
+          errores.map(e => `<li>${e}</li>`).join("") + "</ul>";
+        resultado.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
